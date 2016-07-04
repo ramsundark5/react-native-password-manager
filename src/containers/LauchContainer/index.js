@@ -6,8 +6,14 @@ import { Actions } from 'react-native-router-flux'
 import Container from '@components/Container'
 import Title from '@components/Title'
 import Link from '@components/Link'
+import BLEManager from '../../services/BLEManager';
 
-class LauchContainer extends Component<void, void, void> {
+class LauchContainer extends Component {
+
+  componentDidMount(){
+    BLEManager.init();
+  }
+
   render() {
     return (
       <Container>
