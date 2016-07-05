@@ -1,6 +1,7 @@
 import { NativeModules } from 'react-native';
 import { NativeAppEventEmitter } from 'react-native';
 const BLEPeripheral = NativeModules.BLEPeripheralPlugin;
+
 const properties = {
   READ: 0x02,
   WRITE: 0x08,
@@ -16,26 +17,23 @@ const permissions= {
   WRITE_ENCRYPTION_REQUIRED: 0x08
 };
 
+const SERVICE_UUID = "7e58";
+const CHARACTERISTIC_UUID = "b71f";
+
 class BLEManager{
 
-  init(){
-    BLEPeripheral.createService("7e58")
-      .then(() => {
-        console.log('service created');
-        BLEPeripheral.addCharacteristic("7e58", "b71f", 0, 0)
-          .then(() => {
-            console.log('characteristic created');
-            BLEPeripheral.publishService("7e58")
-              .then(() => {
-                console.log('service published');
-                BLEPeripheral.startAdvertising("7e58", "testbleplugin")
-                  .then(() => {
-                    console.log('started ads');
-                  });
-              });
-          });
-      });
+  async init(){
+    let characteristicProperties = properties.WRITE | properties.READ | properties.NOTIFY;
+    let characteristicPermissions = permissions.WRITEABLE | permissions.READABLE;
 
+    await BLEPeripheral.createService(SERVICE_UUID);
+    console.log('service created');
+    await BLEPeripheral.addCharacteristic(SERVICE_UUID, CHARACTERISTIC_UUID, characteristicProperties, characteristicPermissions);
+    console.log('characteristic added');
+    await BLEPeripheral.publishService(SERVICE_UUID);
+    console.log('service published');
+    await BLEPeripheral.startAdvertising(SERVICE_UUID, "testbleplugin2346");
+    console.log('started advertising');
 
     NativeAppEventEmitter.addListener(
       'BleManagerDiscoverPeripheral',
@@ -46,6 +44,11 @@ class BLEManager{
       }
     );
 
+  }
+
+  async setCharacteristicValue(value){
+    await BLEPeripheral.setCharacteristicValue(SERVICE_UUID, CHARACTERISTIC_UUID, value);
+    console.log('characteristics value updated');
   }
 
 }

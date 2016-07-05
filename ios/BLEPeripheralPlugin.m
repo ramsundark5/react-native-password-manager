@@ -97,7 +97,7 @@ RCT_EXPORT_METHOD(setCharacteristicValue:(NSString *)serviceUUIDString
   
   CBUUID *characteristicUUID = [CBUUID UUIDWithString:characteristicUUIDString];
   
-  NSData* data = [[NSData alloc] initWithBase64EncodedString:message options:0];
+  NSData* data = [message dataUsingEncoding:NSUTF8StringEncoding];
   
   if (service) {
     CBMutableCharacteristic *characteristic  = (CBMutableCharacteristic*)[self findCharacteristicByUUID: characteristicUUID service:service];

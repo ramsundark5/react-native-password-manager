@@ -56,4 +56,12 @@
   return YES;
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+  // Deliberately continue advertising so that it still remains discoverable.
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+  NSLog(@"applicationWillEnterForeground.");
+}
+
 @end

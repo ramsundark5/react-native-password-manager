@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-import reduxThunkMiddleware from 'redux-thunk'
-import Reactotron from 'reactotron'
-import * as reducers from './reducers'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import reduxThunkMiddleware from 'redux-thunk';
+import Reactotron from 'reactotron';
+import * as reducers from './reducers';
 
 Reactotron.connect({
   enabled: __DEV__,
@@ -20,6 +20,6 @@ export default function configureStore(initialState): Store {
     initialState,
     enhancer
   )
-  Reactotron.addReduxStore(store)
-  return store
+  Reactotron.addReduxStore(store);
+  return store;
 }
